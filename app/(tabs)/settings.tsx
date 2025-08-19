@@ -1,14 +1,14 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import * as FileSystem from 'expo-file-system';
-
-import React, { useEffect, useState } from 'react';
+// import * as Sharing from 'expo-sharing';
+import React, { useCallback, useState } from 'react';
 import {
-    Alert,
-    ScrollView,
-    StyleSheet,
-    Switch,
-    TouchableOpacity,
-    View,
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Switch,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 import { LoadingState } from '@/components/LoadingState';
@@ -17,9 +17,10 @@ import { ThemedText } from '@/components/ThemedText';
 import { APP_THEME } from '@/constants/Types';
 import { BiometricService } from '@/services/BiometricService';
 import {
-    AppSettings,
-    StorageService,
+  AppSettings,
+  StorageService,
 } from '@/services/StorageService';
+import { useFocusEffect } from 'expo-router';
 
 interface SettingsItemProps {
   title: string;
@@ -82,10 +83,13 @@ export default function SettingsScreen() {
   const [biometricType, setBiometricType] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    loadSettings();
-    checkBiometricSupport();
-  }, []);
+  // Refresh data when screen comes into focus
+  useFocusEffect(
+    useCallback(() => {
+      loadSettings();
+      checkBiometricSupport();
+    }, [])
+  );
 
   const loadSettings = async () => {
     try {
@@ -147,7 +151,7 @@ export default function SettingsScreen() {
     }
 
     if (enabled) {
-
+      // Test biometric authentication before enabling
       const authResult = await BiometricService.authenticateAsync(
         'Authenticate to enable biometric security'
       );
@@ -191,20 +195,20 @@ export default function SettingsScreen() {
 
       await FileSystem.writeAsStringAsync(fileUri, exportData);
 
+      // if (await Sharing.isAvailableAsync()) {
+      //   await Sharing.shareAsync(fileUri, {
+      //     mimeType: 'application/json',
+      //     dialogTitle: 'Export SecureVault Data',
+      //   });
+      // } else {
+      //   Alert.alert(
+      //     'Export Complete',
+      //     `Data exported to: ${fileName}`,
+      //     [{ text: 'OK' }]
+      //   );
+      // }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+      // Update last backup date
       await updateSetting('lastBackupDate', new Date().toISOString());
     } catch (error) {
       console.error('Error exporting data:', error);
@@ -232,7 +236,7 @@ export default function SettingsScreen() {
                 'All data has been permanently deleted.',
                 [{ text: 'OK' }]
               );
-
+              // Reset settings state
               loadSettings();
             } catch (error) {
               Alert.alert(

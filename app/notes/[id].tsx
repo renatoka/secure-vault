@@ -114,7 +114,14 @@ export default function ViewNoteScreen() {
       if (updatedNote) {
         setNote(updatedNote);
         setIsEditing(false);
-        Alert.alert('Success', 'Note updated successfully!');
+        Alert.alert('Success', 'Note updated successfully!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              router.push('/(tabs)');
+            },
+          },
+        ]);
       }
     } catch (error) {
       console.error('Error saving note:', error);
@@ -174,7 +181,7 @@ export default function ViewNoteScreen() {
     if (!note) return;
 
 
-
+    // await Clipboard.setStringAsync(note.content);
     Alert.alert('Copied', 'Note content copied to clipboard.');
   };
 
@@ -272,6 +279,7 @@ export default function ViewNoteScreen() {
         style={styles.content}
         keyboardShouldPersistTaps="handled"
       >
+        {/* Note Metadata */}
         {!isEditing && (
           <View style={styles.metadataSection}>
             <View

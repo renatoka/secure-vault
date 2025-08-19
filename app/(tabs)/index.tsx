@@ -1,6 +1,6 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useFocusEffect, useRouter } from 'expo-router';
+import React, { useCallback, useState } from 'react';
 import {
   Dimensions,
   RefreshControl,
@@ -36,14 +36,18 @@ export default function DashboardScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
-  useEffect(() => {
-    loadDashboardData();
-  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadDashboardData();
+    }, [])
+  );
 
   const loadDashboardData = async () => {
     try {
       const allNotes = await StorageService.getNotes();
       setNotes(allNotes);
+
 
       const stats: Record<string, CategoryStats> = {};
       Object.keys(CATEGORIES).forEach((categoryId) => {
@@ -63,6 +67,7 @@ export default function DashboardScreen() {
         };
       });
       setCategoryStats(stats);
+
 
       const recent = allNotes
         .sort(

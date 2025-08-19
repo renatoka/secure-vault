@@ -170,7 +170,7 @@ export class StorageService {
       const filteredNotes = notes.filter((note) => note.id !== id);
 
       if (filteredNotes.length === notes.length) {
-        return false; // Note not found
+        return false;
       }
 
       await this.saveNotes(filteredNotes);

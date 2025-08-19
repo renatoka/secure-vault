@@ -1,5 +1,9 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import {
+  useFocusEffect,
+  useLocalSearchParams,
+  useRouter,
+} from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   Alert,
@@ -37,9 +41,12 @@ export default function NotesScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
-  useEffect(() => {
-    loadNotes();
-  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadNotes();
+    }, [])
+  );
 
   useEffect(() => {
     filterNotes();
@@ -61,11 +68,13 @@ export default function NotesScreen() {
   const filterNotes = () => {
     let filtered = notes;
 
+
     if (selectedCategory !== 'all') {
       filtered = filtered.filter(
         (note) => note.category === selectedCategory
       );
     }
+
 
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
@@ -75,6 +84,7 @@ export default function NotesScreen() {
           note.content.toLowerCase().includes(query)
       );
     }
+
 
     filtered.sort(
       (a, b) =>
@@ -95,6 +105,7 @@ export default function NotesScreen() {
   };
 
   const handleDeleteNote = async (note: SecureNote) => {
+
     const sensitiveCategories = [
       'passwords',
       'financial',

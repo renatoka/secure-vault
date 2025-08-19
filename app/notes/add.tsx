@@ -2,20 +2,27 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    Alert,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 import { SecureButton } from '@/components/SecureButton';
 import { ThemedText } from '@/components/ThemedText';
-import { APP_THEME, CATEGORIES, SENSITIVE_CATEGORIES } from '@/constants/Types';
-import { SecureNote, StorageService } from '@/services/StorageService';
+import {
+  APP_THEME,
+  CATEGORIES,
+  SENSITIVE_CATEGORIES,
+} from '@/constants/Types';
+import {
+  SecureNote,
+  StorageService,
+} from '@/services/StorageService';
 import { validateNoteInput } from '@/utils/helpers';
 
 interface CategorySelectorProps {
@@ -33,7 +40,8 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
       <View style={styles.categoryList}>
         {Object.entries(CATEGORIES).map(([categoryId, category]) => {
           const isSelected = selectedCategory === categoryId;
-          const isSensitive = SENSITIVE_CATEGORIES.includes(categoryId);
+          const isSensitive =
+            SENSITIVE_CATEGORIES.includes(categoryId);
 
           return (
             <TouchableOpacity
@@ -42,19 +50,29 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
                 styles.categoryItem,
                 isSelected && styles.categoryItemSelected,
               ]}
-              onPress={() => onSelect(categoryId as SecureNote['category'])}
+              onPress={() =>
+                onSelect(categoryId as SecureNote['category'])
+              }
             >
               <View style={styles.categoryItemContent}>
                 <MaterialIcons
                   name={category.icon as any}
                   size={24}
-                  color={isSelected ? APP_THEME.text.primary : category.color}
+                  color={
+                    isSelected
+                      ? APP_THEME.text.primary
+                      : category.color
+                  }
                 />
                 {isSensitive && (
                   <MaterialIcons
                     name="security"
                     size={16}
-                    color={isSelected ? APP_THEME.text.primary : APP_THEME.warning}
+                    color={
+                      isSelected
+                        ? APP_THEME.text.primary
+                        : APP_THEME.warning
+                    }
                     style={styles.securityIcon}
                   />
                 )}
@@ -70,7 +88,8 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
               <ThemedText
                 style={[
                   styles.categoryItemDescription,
-                  isSelected && styles.categoryItemDescriptionSelected,
+                  isSelected &&
+                    styles.categoryItemDescriptionSelected,
                 ]}
               >
                 {category.description}
@@ -88,7 +107,8 @@ export default function AddNoteScreen() {
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [category, setCategory] = useState<SecureNote['category']>('personal');
+  const [category, setCategory] =
+    useState<SecureNote['category']>('personal');
   const [isSaving, setIsSaving] = useState(false);
 
   const handleSave = async () => {
@@ -121,7 +141,7 @@ export default function AddNoteScreen() {
         {
           text: 'OK',
           onPress: () => {
-            router.back();
+            router.push('/(tabs)');
           },
         },
       ]);
@@ -140,7 +160,11 @@ export default function AddNoteScreen() {
         'Are you sure you want to discard your changes?',
         [
           { text: 'Keep Editing', style: 'cancel' },
-          { text: 'Discard', style: 'destructive', onPress: () => router.back() },
+          {
+            text: 'Discard',
+            style: 'destructive',
+            onPress: () => router.back(),
+          },
         ]
       );
     } else {
@@ -149,7 +173,8 @@ export default function AddNoteScreen() {
   };
 
   const isSensitiveCategory = SENSITIVE_CATEGORIES.includes(category);
-  const canSave = title.trim().length > 0 && content.trim().length > 0;
+  const canSave =
+    title.trim().length > 0 && content.trim().length > 0;
 
   return (
     <KeyboardAvoidingView
@@ -157,8 +182,15 @@ export default function AddNoteScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <View style={styles.header}>
-        <TouchableOpacity onPress={handleCancel} style={styles.cancelButton}>
-          <MaterialIcons name="close" size={24} color={APP_THEME.text.primary} />
+        <TouchableOpacity
+          onPress={handleCancel}
+          style={styles.cancelButton}
+        >
+          <MaterialIcons
+            name="close"
+            size={24}
+            color={APP_THEME.text.primary}
+          />
         </TouchableOpacity>
         <ThemedText style={styles.headerTitle}>New Note</ThemedText>
         <SecureButton
@@ -173,7 +205,10 @@ export default function AddNoteScreen() {
         />
       </View>
 
-      <ScrollView style={styles.content} keyboardShouldPersistTaps="handled">
+      <ScrollView
+        style={styles.content}
+        keyboardShouldPersistTaps="handled"
+      >
         {/* Title Input */}
         <View style={styles.inputSection}>
           <ThemedText style={styles.sectionTitle}>Title</ThemedText>
@@ -206,8 +241,8 @@ export default function AddNoteScreen() {
               color={APP_THEME.warning}
             />
             <ThemedText style={styles.securityNoticeText}>
-              This note will be stored in a secure category and may require
-              biometric authentication for certain actions.
+              This note will be stored in a secure category and may
+              require biometric authentication for certain actions.
             </ThemedText>
           </View>
         )}
@@ -235,17 +270,20 @@ export default function AddNoteScreen() {
           <ThemedText style={styles.tipsTitle}>💡 Tips</ThemedText>
           <View style={styles.tipItem}>
             <ThemedText style={styles.tipText}>
-              • Choose the appropriate category for better organization
+              • Choose the appropriate category for better
+              organization
             </ThemedText>
           </View>
           <View style={styles.tipItem}>
             <ThemedText style={styles.tipText}>
-              • Sensitive categories (Passwords, Financial, Documents) have enhanced security
+              • Sensitive categories (Passwords, Financial, Documents)
+              have enhanced security
             </ThemedText>
           </View>
           <View style={styles.tipItem}>
             <ThemedText style={styles.tipText}>
-              • Your notes are automatically encrypted and stored securely
+              • Your notes are automatically encrypted and stored
+              securely
             </ThemedText>
           </View>
         </View>

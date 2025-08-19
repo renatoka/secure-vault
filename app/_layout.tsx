@@ -1,17 +1,15 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from '@react-navigation/native';
+import React from 'react';
+
+import { APP_THEME } from '@/constants/Types';
+import { DarkTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import 'react-native-reanimated';
 
 import { LoadingState } from '@/components/LoadingState';
-import { APP_THEME } from '@/constants/Types';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { BiometricService } from '@/services/BiometricService';
 import { StorageService } from '@/services/StorageService';
@@ -87,9 +85,7 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider
-      value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-    >
+    <ThemeProvider value={DarkTheme}>
       <Stack screenOptions={{ headerShown: false }}>
         {isAuthenticated ? (
           <>
