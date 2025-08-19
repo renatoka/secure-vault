@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "secure-vault",
+    "name": "SecureVault",
     "slug": "secure-vault",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -9,14 +9,19 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "This app uses Face ID for secure authentication to protect your sensitive data.",
+        "NSBiometricUsageDescription": "This app uses biometric authentication to protect your sensitive data."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#1a1a2e"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "permissions": ["USE_FINGERPRINT", "USE_BIOMETRIC"]
     },
     "web": {
       "bundler": "metro",
@@ -31,7 +36,7 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#1a1a2e"
         }
       ]
     ],
