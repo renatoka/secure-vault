@@ -4,7 +4,7 @@ export {
 
 export type { BiometricAction, CategoryInfo } from './Types';
 
-// App configuration constants
+
 export const APP_CONFIG = {
   MAX_TITLE_LENGTH: 100,
   MAX_CONTENT_LENGTH: 5000,
@@ -14,7 +14,7 @@ export const APP_CONFIG = {
   SESSION_TIMEOUT: 30 * 60 * 1000, // 30 minutes
 } as const;
 
-// Storage keys
+
 export const STORAGE_KEYS = {
   NOTES: '@secure_vault_notes',
   SETTINGS: '@secure_vault_settings',
@@ -22,7 +22,7 @@ export const STORAGE_KEYS = {
   LAST_ACCESS: '@last_access_time',
 } as const;
 
-// Biometric error codes
+
 export const BIOMETRIC_ERRORS = {
   NOT_AVAILABLE: 'BIOMETRIC_NOT_AVAILABLE',
   NOT_ENROLLED: 'BIOMETRIC_NOT_ENROLLED',
@@ -31,7 +31,7 @@ export const BIOMETRIC_ERRORS = {
   SYSTEM_ERROR: 'BIOMETRIC_SYSTEM_ERROR',
 } as const;
 
-// Application states
+
 export const APP_STATES = {
   LOADING: 'loading',
   AUTHENTICATED: 'authenticated',

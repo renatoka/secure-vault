@@ -21,7 +21,6 @@ export class StorageService {
   private static readonly USER_AUTHENTICATED_KEY =
     '@user_authenticated';
 
-  // Mock initial data
   private static mockNotes: SecureNote[] = [
     {
       id: '1',
@@ -66,7 +65,6 @@ export class StorageService {
     lastBackupDate: undefined,
   };
 
-  // Authentication state
   static async setUserAuthenticated(
     isAuthenticated: boolean
   ): Promise<void> {
@@ -92,14 +90,12 @@ export class StorageService {
     }
   }
 
-  // Notes management
   static async getNotes(): Promise<SecureNote[]> {
     try {
       const notesJson = await AsyncStorage.getItem(this.NOTES_KEY);
       if (notesJson) {
         return JSON.parse(notesJson);
       } else {
-        // First time - initialize with mock data
         await this.saveNotes(this.mockNotes);
         return this.mockNotes;
       }
@@ -197,7 +193,6 @@ export class StorageService {
     }
   }
 
-  // Settings management
   static async getSettings(): Promise<AppSettings> {
     try {
       const settingsJson = await AsyncStorage.getItem(
@@ -244,7 +239,6 @@ export class StorageService {
     }
   }
 
-  // Utility methods
   static async clearAllData(): Promise<void> {
     try {
       await AsyncStorage.multiRemove([
